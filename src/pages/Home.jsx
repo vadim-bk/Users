@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers } from "../redux/usersReducer";
+import { getAllUsers } from "../redux/getUsersReducer";
 import { connect } from "react-redux";
 import { Users } from "../components/Users";
 import { Pagination } from "../components/Pagination";
@@ -10,17 +10,16 @@ const Home = ({ getAllUsers, users }) => {
 
   useEffect(() => {
     getAllUsers();
-  }, []);
+  }, [getAllUsers]);
 
   // get current posts
-  const indexofLastUser = currentPage * usersPerPage;
-  const indexofFirstUser = indexofLastUser - usersPerPage;
-  const currentUsers = users.slice(indexofFirstUser, indexofLastUser);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   // change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  console.log(users);
   return (
     <>
       <Users users={currentUsers} />
@@ -34,7 +33,7 @@ const Home = ({ getAllUsers, users }) => {
 };
 
 const mapStateToProps = (state) => ({
-  users: state.usersReducer.users,
+  users: state.getUsersReducer.users,
 });
 
 const mapDispatchToProps = {

@@ -9,9 +9,13 @@ export const Pagination = ({ usersPerPage, totalUsers, paginate }) => {
   return (
     <nav className="pagination-wrapper">
       <ul className="pagination">
-        {pageNumbers.map((number) => (
-          <li className="page-item">
-            <a onClick={(e) => paginate(number)} className="page-link">
+        {pageNumbers.map((number, i) => (
+          <li key={i} className="page-item">
+            <a
+              onClick={(e) => paginate(number)}
+              href="#!"
+              className="page-link"
+            >
               {number}
             </a>
           </li>

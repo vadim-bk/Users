@@ -7,3 +7,24 @@
 .pagination-wrapper {
   margin: 20px auto 0 auto;
 }
+
+.page-link {
+  cursor: pointer;
+  outline: none;
+}
+
+.new-user__wrapper {
+  width: 700px;
+  height: calc(100vh - 112px);
+  margin: 20px auto;
+  display: flex;
+  flex-flow: column;
+}
+
+.form-control {
+  resize: none;
+}
+
+.btn {
+  width: 100px;
+}

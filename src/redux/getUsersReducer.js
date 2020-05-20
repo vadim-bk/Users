@@ -4,11 +4,11 @@ const GET_USERS = "GET_USERS";
 
 export const getAllUsers = () => async (dispatch) => {
   const res = await API.getAllUsers();
-  const data = res.data;
+  const result = res.data;
 
   dispatch({
     type: GET_USERS,
-    payload: data,
+    payload: result,
   });
 };
 

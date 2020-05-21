@@ -28,3 +28,27 @@
 .btn {
   width: 100px;
 }
+
+.card-icons {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+}
+
+.card-icons img {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.modal-icon {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.spinner-border {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+}

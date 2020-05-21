@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NewUser from "./pages/NewUser";
+import EditUser from "./components/EditUser";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <Switch>
         <Route component={Home} path="/" exact />
         <Route component={NewUser} path="/users/new" />
-        {/* <Route component={SelectedUser} path={"/users/:userId"} /> */}
+        <Route component={EditUser} path={"/user/:userId"} />
       </Switch>
     </BrowserRouter>
   );

@@ -13,7 +13,8 @@
   outline: none;
 }
 
-.new-user__wrapper {
+.new-user__wrapper,
+.selected-user__form {
   width: 700px;
   height: calc(100vh - 112px);
   margin: 20px auto;

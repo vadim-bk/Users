@@ -1,23 +1,40 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import "../index.css";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { createUser } from "../redux/usersReducer";
+import { useHistory } from "react-router-dom";
+import { Form, Button, Spinner } from "react-bootstrap";
 
-const NewUser = ({ createUser }) => {
+import { editUser } from "../redux/usersReducer";
+import { getAllUsers } from "../redux/usersReducer";
+import { getSelectedUser } from "../redux/usersReducer";
+
+const EditUser = ({
+  match,
+  getSelectedUser,
+  editUser,
+  getAllUsers,
+  user,
+  loading,
+}) => {
   const [fields, setFields] = useState({
+    id: "",
     name: "",
     surname: "",
     desc: "",
     validated: false,
   });
 
-  const resetFields = () => setFields({ name: "", surname: "", desc: "" });
+  const history = useHistory();
+
+  useEffect(() => {
+    getSelectedUser(match.params.userId);
+  }, []);
 
   const handleOnChange = (e) => {
-    if (e.target.id === "formGroupName") {
+    const id = e.target.id;
+
+    if (id === "formGroupName") {
       setFields({ ...fields, name: e.target.value });
-    } else if (e.target.id === "formGroupSurname") {
+    } else if (id === "formGroupSurname") {
       setFields({ ...fields, surname: e.target.value });
     } else {
       setFields({ ...fields, desc: e.target.value });
@@ -28,37 +45,44 @@ const NewUser = ({ createUser }) => {
     e.preventDefault();
 
     if (fields.name.length && fields.surname.length && fields.desc.length) {
-      createUser(fields);
-      resetFields();
+      editUser(user.id, fields);
+      getAllUsers();
+      history.push("/");
     } else {
       setFields({ ...fields, validated: true });
     }
   };
 
+  if (loading) {
+    return <Spinner animation="border" />;
+  }
+
+  if (user.id !== fields.id) {
+    setFields({
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      desc: user.desc,
+    });
+  }
+
   return (
-    <Form
-      className="new-user__wrapper"
-      noValidate
-      validated={fields.validated}
-      onSubmit={handleSubmit}
-    >
+    <Form noValidate className="selected-user__form" onSubmit={handleSubmit}>
       <Form.Group controlId="formGroupName">
         <Form.Label>Name</Form.Label>
         <Form.Control
-          type="text"
           value={fields.name}
           onChange={handleOnChange}
-          placeholder="Enter your name"
+          type="text"
           required
         />
       </Form.Group>
       <Form.Group controlId="formGroupSurname">
         <Form.Label>Surname</Form.Label>
         <Form.Control
-          type="text"
           value={fields.surname}
           onChange={handleOnChange}
-          placeholder="Enter your name"
+          type="text"
           required
         />
       </Form.Group>
@@ -66,23 +90,28 @@ const NewUser = ({ createUser }) => {
         <Form.Label>Description</Form.Label>
         <Form.Control
           as="textarea"
-          type="text"
           value={fields.desc}
           onChange={handleOnChange}
           style={{ height: "100px" }}
-          placeholder="Enter description"
           required
         />
       </Form.Group>
       <Button type="submit" variant="primary">
-        Create
+        Edit
       </Button>
     </Form>
   );
 };
 
+const mapStateToProps = (state) => ({
+  user: state.usersReducer.user,
+  loading: state.appReducer.loading,
+});
+
 const mapDispatchToProps = {
-  createUser,
+  getSelectedUser,
+  editUser,
+  getAllUsers,
 };
 
-export default connect(null, mapDispatchToProps)(NewUser);
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

@@ -1,20 +1,15 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import removeIcon from "../assets/clear-black-18dp.svg";
-import editIcon from "../assets/create-black-18dp.svg";
 import { connect } from "react-redux";
-import { getAllUsers } from "../redux/getUsersReducer";
 import { Spinner } from "react-bootstrap";
-import { removeUser } from "../redux/removeUserReducer";
+import { useHistory } from "react-router-dom";
 
-const Users = ({ users, getAllUsers, removeUser, loading }) => {
-  const handleRemoveUser = (e) => {
-    const cardId = e.target.closest("[data-type]").dataset.type;
-    removeUser(cardId);
-    getAllUsers();
-  };
+import Alert from "./Alert";
 
-  const handleEditUser = () => {};
+import editIcon from "../assets/create-black-18dp.svg";
+
+const Users = ({ users, loading }) => {
+  const history = useHistory();
 
   if (loading) {
     return <Spinner animation="border" />;
@@ -35,8 +30,12 @@ const Users = ({ users, getAllUsers, removeUser, loading }) => {
             <Card.Text>{user.desc}</Card.Text>
           </Card.Body>
           <span className="card-icons">
-            <img onClick={handleEditUser} src={editIcon} alt="edit" />
-            <img onClick={handleRemoveUser} src={removeIcon} alt="remove" />
+            <img
+              onClick={() => history.push(`/user/${user.id}`)}
+              src={editIcon}
+              alt="edit"
+            />
+            <Alert />
           </span>
         </Card>
       ))}
@@ -45,12 +44,7 @@ const Users = ({ users, getAllUsers, removeUser, loading }) => {
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.appReducers.loading,
+  loading: state.appReducer.loading,
 });
 
-const mapDispatchToProps = {
-  getAllUsers,
-  removeUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps)(Users);

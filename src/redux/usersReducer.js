@@ -28,13 +28,19 @@ export const createUser = (data) => async (dispatch) => {
 };
 
 export const getSelectedUser = (id) => async (dispatch) => {
+  dispatch(showLoader());
+
   const res = await API.getSelectedUser(id);
   const result = res.data;
 
-  dispatch({
-    type: GET_SELECTED,
-    payload: result,
-  });
+  setTimeout(() => {
+    dispatch({
+      type: GET_SELECTED,
+      payload: result,
+    });
+
+    dispatch(hideLoader());
+  }, 500);
 };
 
 export const editUser = (id, data) => async (dispatch) => {

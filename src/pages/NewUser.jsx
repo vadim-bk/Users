@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import "../index.css";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { createUser } from "../redux/usersReducer";
+import { Form, Button, Alert } from "react-bootstrap";
+
+import "../index.css";
 
 const NewUser = ({ createUser }) => {
   const [fields, setFields] = useState({
@@ -10,17 +12,18 @@ const NewUser = ({ createUser }) => {
     surname: "",
     desc: "",
     validated: false,
+    created: false,
   });
 
-  const resetFields = () => setFields({ name: "", surname: "", desc: "" });
+  const handleOnChange = ({ target }) => {
+    const id = target.id;
 
-  const handleOnChange = (e) => {
-    if (e.target.id === "formGroupName") {
-      setFields({ ...fields, name: e.target.value });
-    } else if (e.target.id === "formGroupSurname") {
-      setFields({ ...fields, surname: e.target.value });
+    if (id === "formGroupName") {
+      setFields({ ...fields, name: target.value });
+    } else if (id === "formGroupSurname") {
+      setFields({ ...fields, surname: target.value });
     } else {
-      setFields({ ...fields, desc: e.target.value });
+      setFields({ ...fields, desc: target.value });
     }
   };
 
@@ -29,15 +32,23 @@ const NewUser = ({ createUser }) => {
 
     if (fields.name.length && fields.surname.length && fields.desc.length) {
       createUser(fields);
-      resetFields();
+      setFields({ ...fields, created: true });
     } else {
       setFields({ ...fields, validated: true });
     }
   };
 
+  if (fields.created) {
+    return (
+      <Alert variant="success">
+        Success, created new user! Go to <Link to="/">Home</Link>
+      </Alert>
+    );
+  }
+
   return (
     <Form
-      className="new-user__wrapper"
+      className="form"
       noValidate
       validated={fields.validated}
       onSubmit={handleSubmit}
@@ -52,6 +63,7 @@ const NewUser = ({ createUser }) => {
           required
         />
       </Form.Group>
+
       <Form.Group controlId="formGroupSurname">
         <Form.Label>Surname</Form.Label>
         <Form.Control
@@ -62,6 +74,7 @@ const NewUser = ({ createUser }) => {
           required
         />
       </Form.Group>
+
       <Form.Group controlId="formGroupDescription">
         <Form.Label>Description</Form.Label>
         <Form.Control
@@ -69,11 +82,12 @@ const NewUser = ({ createUser }) => {
           type="text"
           value={fields.desc}
           onChange={handleOnChange}
-          style={{ height: "100px" }}
+          className="form-textarea"
           placeholder="Enter description"
           required
         />
       </Form.Group>
+
       <Button type="submit" variant="primary">
         Create
       </Button>

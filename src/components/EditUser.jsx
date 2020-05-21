@@ -6,6 +6,7 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import { editUser } from "../redux/usersReducer";
 import { getAllUsers } from "../redux/usersReducer";
 import { getSelectedUser } from "../redux/usersReducer";
+import "../index.css";
 
 const EditUser = ({
   match,
@@ -29,15 +30,19 @@ const EditUser = ({
     getSelectedUser(match.params.userId);
   }, []);
 
-  const handleOnChange = (e) => {
-    const id = e.target.id;
+  if (loading) {
+    return <Spinner animation="border" />;
+  }
+
+  const handleOnChange = ({ target }) => {
+    const id = target.id;
 
     if (id === "formGroupName") {
-      setFields({ ...fields, name: e.target.value });
+      setFields({ ...fields, name: target.value });
     } else if (id === "formGroupSurname") {
-      setFields({ ...fields, surname: e.target.value });
+      setFields({ ...fields, surname: target.value });
     } else {
-      setFields({ ...fields, desc: e.target.value });
+      setFields({ ...fields, desc: target.value });
     }
   };
 
@@ -47,15 +52,12 @@ const EditUser = ({
     if (fields.name.length && fields.surname.length && fields.desc.length) {
       editUser(user.id, fields);
       getAllUsers();
+
       history.push("/");
     } else {
       setFields({ ...fields, validated: true });
     }
   };
-
-  if (loading) {
-    return <Spinner animation="border" />;
-  }
 
   if (user.id !== fields.id) {
     setFields({
@@ -67,7 +69,12 @@ const EditUser = ({
   }
 
   return (
-    <Form noValidate className="selected-user__form" onSubmit={handleSubmit}>
+    <Form
+      noValidate
+      className="form"
+      validated={fields.validated}
+      onSubmit={handleSubmit}
+    >
       <Form.Group controlId="formGroupName">
         <Form.Label>Name</Form.Label>
         <Form.Control
@@ -77,6 +84,7 @@ const EditUser = ({
           required
         />
       </Form.Group>
+
       <Form.Group controlId="formGroupSurname">
         <Form.Label>Surname</Form.Label>
         <Form.Control
@@ -86,16 +94,18 @@ const EditUser = ({
           required
         />
       </Form.Group>
+
       <Form.Group controlId="formGroupDescription">
         <Form.Label>Description</Form.Label>
         <Form.Control
           as="textarea"
           value={fields.desc}
           onChange={handleOnChange}
-          style={{ height: "100px" }}
+          className="form-textarea"
           required
         />
       </Form.Group>
+
       <Button type="submit" variant="primary">
         Edit
       </Button>

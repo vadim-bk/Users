@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
 
-import removeIcon from "../assets/clear-black-18dp.svg";
 import { removeUser } from "../redux/usersReducer";
+import removeIcon from "../assets/clear-black-18dp.svg";
 
-const Alert = ({ removeUser }) => {
+const AlertRemove = ({ removeUser }) => {
   const [state, setState] = useState({
     show: false,
     id: null,
@@ -15,7 +15,6 @@ const Alert = ({ removeUser }) => {
 
   const handleShow = (e) => {
     const userId = e.target.closest("[data-type]").dataset.type;
-
     setState({ ...state, id: userId, show: true });
   };
 
@@ -46,4 +45,4 @@ const mapDispatchToProps = {
   removeUser,
 };
 
-export default connect(null, mapDispatchToProps)(Alert);
+export default connect(null, mapDispatchToProps)(AlertRemove);

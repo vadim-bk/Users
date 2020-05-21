@@ -1,25 +1,25 @@
+a {
+  text-decoration: none !important;
+}
+
 #root {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   min-height: 100vh;
 }
-.pagination-wrapper {
-  margin: 20px auto 0 auto;
-}
 
-.page-link {
-  cursor: pointer;
-  outline: none;
-}
-
-.new-user__wrapper,
-.selected-user__form {
+/* ----------------------------EditUser && NewUser-------------------------------------------------- */
+.form {
   width: 700px;
   height: calc(100vh - 112px);
   margin: 20px auto;
   display: flex;
   flex-flow: column;
+}
+
+.form-textarea {
+  height: 100px !important;
 }
 
 .form-control {
@@ -30,21 +30,46 @@
   width: 100px;
 }
 
-.card-icons {
+/* ----------------------------Pagination----------------------------------------------------------- */
+
+.pagination-wrapper {
+  margin: 20px auto 0 auto;
+}
+
+.page-link {
+  cursor: pointer;
+  outline: none;
+}
+
+/* ----------------------------Users----------------------------------------------------------- */
+
+.users-wrapper {
+  width: 700px;
+  margin: 0 auto;
+}
+
+.users-wrapper__list {
+  width: 100%;
+  margin: 10px 0;
+  position: relative;
+}
+
+.users-wrapper__list-name {
+  margin-right: 5px;
+}
+
+.users-wrapper__list-btn {
   position: absolute;
   top: 7px;
   right: 7px;
 }
 
-.card-icons img {
+.users-wrapper__list-btn img {
   margin: 0 5px;
   cursor: pointer;
 }
 
-.modal-icon {
-  margin: 0 5px;
-  cursor: pointer;
-}
+/* ----------------------------Spinner----------------------------------------------------------- */
 
 .spinner-border {
   position: absolute;
@@ -52,4 +77,14 @@
   left: 50%;
   width: 50px;
   height: 50px;
+}
+
+/* ----------------------------Alert----------------------------------------------------------- */
+
+.alert-success {
+  width: 500px;
+  position: absolute;
+  top: 60px;
+  left: calc(50% - 250px);
+  text-align: center;
 }

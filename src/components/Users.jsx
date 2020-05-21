@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
-import Alert from "./Alert";
-
+import AlertRemove from "./AlertRemove";
 import editIcon from "../assets/create-black-18dp.svg";
 
 const Users = ({ users, loading }) => {
@@ -14,28 +13,25 @@ const Users = ({ users, loading }) => {
   if (loading) {
     return <Spinner animation="border" />;
   }
+
   return (
-    <div style={{ width: "700px", margin: "0 auto" }}>
+    <div className="users-wrapper">
       {users.map((user) => (
-        <Card
-          key={user.id}
-          style={{ width: "100%", margin: "10px 0", position: "relative" }}
-          data-type={user.id}
-        >
+        <Card key={user.id} className="users-wrapper__list" data-type={user.id}>
           <Card.Body>
             <Card.Title>
-              <span style={{ marginRight: "5px" }}>{user.name}</span>
+              <span className="users-wrapper__list-name">{user.name}</span>
               <span>{user.surname}</span>
             </Card.Title>
             <Card.Text>{user.desc}</Card.Text>
           </Card.Body>
-          <span className="card-icons">
+          <span className="users-wrapper__list-btn">
             <img
               onClick={() => history.push(`/user/${user.id}`)}
               src={editIcon}
               alt="edit"
             />
-            <Alert />
+            <AlertRemove />
           </span>
         </Card>
       ))}
